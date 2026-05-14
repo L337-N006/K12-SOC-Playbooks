@@ -1,0 +1,99 @@
+################################################################################
+#  ██╗     ██████╗ ██████╗ ███████╗      ███╗   ██╗ ██████╗  ██████╗  ██████╗ 
+#  ██║     ╚════██╗╚════██╗╚════██║      ████╗  ██║██╔═══██╗██╔═══██╗██╔════╝ 
+#  ██║      █████╔╝ █████╔╝    ███╔╝ ██╗ ██╔██╗ ██║██║   ██║██║   ██║███████╗ 
+#  ██║      ╚═══██╗ ╚═══██╗   ███╔╝  ╚═╝ ██║╚██╗██║██║   ██║██║   ██║██╔═══██╗
+#  ███████╗██████╔╝██████╔╝  ███╔╝       ██║ ╚████║╚██████╔╝╚██████╔╝╚██████╔╝
+#  ╚══════╝╚═════╝ ╚═════╝   ╚══╝        ╚═╝  ╚═══╝ ╚═════╝  ╚═════╝  ╚═════╝ 
+#
+# [SYS_NAME]    K-12 CYBER DEFENSE INITIATIVE (CDI)
+# [OPERATOR]    L337-N006 // NEURAL NET OVERRIDE
+# [MODULE]      SURICATA SUPPRESSION & THRESHOLDING MATRIX
+# [VERSION]     2.2.1-STABLE
+# [STATUS]      NOISE PURGE ENGAGED
+################################################################################
+
+# ==============================================================================
+# [>] MODULE 0x01: RECONNAISSANCE & DISCOVERY INSTRUMENTATION
+# [i] Total suppression for authorized scanning nodes. 
+# ==============================================================================
+# suppress gen_id 1, sig_id 1000001, track by_src, ip [SCANNER_IP]
+
+# ==============================================================================
+# [>] MODULE 0x02: DEPLOYMENT & FLEET COMMAND CHATTER
+# [i] Filtering high-frequency chatter from MDM & Kernel telemetry.
+# ==============================================================================
+suppress gen_id 1, sig_id 2027390
+suppress gen_id 1, sig_id 2001595
+
+# ==============================================================================
+# [>] MODULE 0x03: PERIMETER DROPPED TLDs (DNS BLACKHOLE)
+# ==============================================================================
+suppress gen_id 1, sig_id 2053060
+suppress gen_id 1, sig_id 2027758
+suppress gen_id 1, sig_id 2027757
+suppress gen_id 1, sig_id 2012811
+suppress gen_id 1, sig_id 2063331
+suppress gen_id 1, sig_id 2044219
+suppress gen_id 1, sig_id 2066710
+suppress gen_id 1, sig_id 2065581
+suppress gen_id 1, sig_id 2067414
+suppress gen_id 1, sig_id 2023883
+suppress gen_id 1, sig_id 2039918
+suppress gen_id 1, sig_id 2063216
+suppress gen_id 1, sig_id 2042038
+suppress gen_id 1, sig_id 2053158
+suppress gen_id 1, sig_id 2043711
+suppress gen_id 1, sig_id 2065162
+suppress gen_id 1, sig_id 2058175
+suppress gen_id 1, sig_id 2040367
+suppress gen_id 1, sig_id 2063465
+suppress gen_id 1, sig_id 2040040
+suppress gen_id 1, sig_id 2048582
+
+# ==============================================================================
+# [>] MODULE 0x04: EDUCATIONAL SAAS & WORKSPACE PIPELINES
+# ==============================================================================
+suppress gen_id 1, sig_id 2028773
+suppress gen_id 1, sig_id 2034098
+suppress gen_id 1, sig_id 2065178
+suppress gen_id 1, sig_id 2065176
+suppress gen_id 1, sig_id 2057378
+suppress gen_id 1, sig_id 2053104
+suppress gen_id 1, sig_id 2043715
+suppress gen_id 1, sig_id 2039854
+
+# ==============================================================================
+# [>] MODULE 0x05: CRYPTOGRAPHIC BASELINE
+# ==============================================================================
+suppress gen_id 1, sig_id 2011582
+suppress gen_id 1, sig_id 2224003
+suppress gen_id 1, sig_id 2224004
+suppress gen_id 1, sig_id 2224005
+suppress gen_id 1, sig_id 2008581
+suppress gen_id 1, sig_id 2200122
+
+# ==============================================================================
+# [>] MODULE 0x06: ADWARE & STUDENT "VPN BYPASS" NOISE
+# ==============================================================================
+suppress gen_id 1, sig_id 2061198
+suppress gen_id 1, sig_id 2063040
+suppress gen_id 1, sig_id 2046656
+suppress gen_id 1, sig_id 2067917
+suppress gen_id 1, sig_id 2068010
+suppress gen_id 1, sig_id 2049201
+suppress gen_id 1, sig_id 2028783
+
+# ==============================================================================
+# [>] MODULE 0x07: PORT 53 HUNTING (NOISE REDUCTION)
+# ==============================================================================
+suppress gen_id 1, sig_id 2067113
+
+# ==============================================================================
+# [>] MODULE 0x08: RATE LIMITING & THRESHOLDING
+# ==============================================================================
+threshold gen_id 1, sig_id 2029709, type limit, track by_src, count 1, seconds 3600
+
+################################################################################
+# [EOF] MATRIX COMPILATION COMPLETE // READY FOR DEPLOYMENT
+################################################################################
