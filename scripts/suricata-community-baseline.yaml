@@ -1,0 +1,124 @@
+%YAML 1.1
+---
+# [OPERATOR]    L337-N006 // NEURAL NET OVERRIDE
+# [VERSION]     K-12 COMMUNITY BASELINE (SCS-DERIVED)
+# [PURPOSE]     Standardized Suricata Config for District SOC Operations
+# [NOTE]        Sanitize interface names and HOME_NET before deployment.
+
+suricata-version: "8.0"
+
+vars:
+  address-groups:
+    # [L337-NOTE] Define your district's internal ranges here.
+    HOME_NET: "[10.0.0.0/8,172.16.0.0/12,192.168.0.0/16]"
+    EXTERNAL_NET: "!$HOME_NET"
+    HTTP_SERVERS: "$HOME_NET"
+    SMTP_SERVERS: "$HOME_NET"
+    SQL_SERVERS: "$HOME_NET"
+    DNS_SERVERS: "$HOME_NET"
+    TELNET_SERVERS: "$HOME_NET"
+    DC_SERVERS: "$HOME_NET"
+
+  port-groups:
+    HTTP_PORTS: "80"
+    SHELLCODE_PORTS: "!80"
+    SSH_PORTS: 22
+    DNS_PORTS: 53
+    # [L337-NOTE] Standardized K-12 App ports
+    SIP_PORTS: "[5060, 5061]"
+
+default-log-dir: /var/log/suricata/
+
+stats:
+  enabled: yes
+  interval: 8
+
+outputs:
+  - fast:
+      enabled: yes
+      filename: fast.log
+      append: yes
+
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: eve.json
+      community-id: true # [L337-NOTE] Enabled for easier cross-tool pivot (Zeek/Wazuh)
+      types:
+        - alert:
+            tagged-packets: yes
+            http-body: yes
+        - anomaly:
+            enabled: yes
+        - dns:
+            enabled: yes
+        - tls:
+            enabled: yes
+        - files:
+            enabled: yes
+        - ssh:
+            enabled: yes
+
+logging:
+  default-log-level: notice
+  outputs:
+  - console:
+      enabled: yes
+  - file:
+      enabled: yes
+      level: info
+      filename: suricata.log
+
+# [L337-NOTE] SANITIZED CAPTURE SECTION
+# Replace 'eth0' with your physical monitoring interface (e.g., ens19).
+af-packet:
+  - interface: eth0
+    # [L337-NOTE] BPF Filter below is a template to exclude high-noise backup/management traffic.
+    # Replace [SCANNER_IP] with your district vulnerability scanner.
+    bpf-filter: "not (host [SCANNER_IP] or host [MANAGEMENT_JUMPBOX])"
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+
+app-layer:
+  protocols:
+    tls:
+      enabled: yes
+      detection-ports:
+        dp: 443
+    http:
+      enabled: yes
+      libhtp:
+         default-config:
+           personality: IDS
+           request-body-limit: 100 KiB
+           response-body-limit: 100 KiB
+
+# [L337-NOTE] RESOURCE ALLOCATION (OPTIMIZED FOR K-12 HARDWARE)
+flow:
+  memcap: 2 GiB
+  hash-size: 1048576
+  prealloc: 100000
+
+stream:
+  memcap: 2 GiB
+  reassembly:
+    memcap: 2 GiB
+    depth: 1 MiB
+
+# [L337-NOTE] RULE AND THRESHOLD INJECTION POINTS
+default-rule-path: /var/lib/suricata/rules
+
+rule-files:
+  - suricata.rules
+  - local.rules
+
+classification-file: /etc/suricata/classification.config
+reference-config-file: /etc/suricata/reference.config
+
+# [L337-NOTE] Point this to the 'suricata-k12-baseline.thresholds' file we built.
+threshold-file: /etc/suricata/threshold.config
+
+################################################################################
+# [EOF] SANITIZED BASELINE CONFIG // READY FOR REPO
+################################################################################
