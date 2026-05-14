@@ -12,11 +12,15 @@ This repository contains field-tested scripts, threat-hunting queries, and incid
 
 \## What's Inside
 
+\* \*\*`/docs`\*\*: AI SOC Advisor deployment guides, architecture concepts, and Proof of Concepts (like the Sentinel-X Gemini/NotebookLM build).
+
 \* \*\*`/runbooks`\*\*: Step-by-step containment guides for IoT, network hardware, and endpoints.
 
 \* \*\*`/scripts`\*\*: Automation to parse telemetry and speed up time-to-remediation.
 
 \* \*\*`/queries`\*\*: Asset and vulnerability hunting queries.
+
+\* \*\*`/wazuh`\*\*: Custom rules and decoders optimized for the K-12 threat landscape.
 
 
 
