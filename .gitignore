@@ -1,0 +1,13 @@
+﻿# Ignore sensitive files and data dumps
+*.json
+*.jsonl
+*.csv
+*.pcap
+*.log
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore local environment variables
+.env
