@@ -1,8 +1,8 @@
-\# K12 Google Workspace: Global \& Student Blocklists
+\# zscaler: Global \& Student Blocklists
 
 
 
-\*\*Author:\*\* K12 SOC Operations  
+\*\*Author:\*\* L337-N006  
 
 \*\*Description:\*\* A curated collection of domains, URLs, and TLDs blocked within our Google Workspace environment. This list mitigates student proxy-bypasses ("whack-a-mole" gaming sites), adware, malicious extensions, and recent threat-actor infrastructure (e.g., CrowdStrike outage phishing).
 
