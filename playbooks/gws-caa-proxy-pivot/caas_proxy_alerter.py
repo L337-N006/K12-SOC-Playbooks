@@ -33,13 +33,14 @@ IS_WINDOWS = os.name == "nt"
 
 if IS_WINDOWS:
     logger.info("[*] Detected Windows Environment execution context.")
+    # REPLACE: Update this path if your Windows GAM installation directory is different
     DEFAULT_GAM = r"C:\GAMADV-XTD3\gam.exe"
     DEFAULT_STATE = r"C:\SecurityOPS\Logs\alert_state.json"
     DEFAULT_TEMP = r"C:\SecurityOPS\Temp"
 else:
     logger.info("[*] Detected POSIX/Linux/WSL Environment execution context.")
-    # Fallback checks pathing for active user home
-    DEFAULT_GAM = "/home/giovanni/bin/gam7/gam" if os.path.exists("/home/giovanni/bin/gam7/gam") else "gam"
+    # REPLACE: Change "/home/YOUR_USER/" to match your actual service account or execution user's home path
+    DEFAULT_GAM = "/home/YOUR_SERVICE_ACCOUNT/bin/gam7/gam" if os.path.exists("/home/YOUR_SERVICE_ACCOUNT/bin/gam7/gam") else "gam"
     DEFAULT_STATE = os.path.expanduser("~/.gam/alert_state.json")
     DEFAULT_TEMP = "/tmp/secops_caa"
 
@@ -51,10 +52,10 @@ LOOKBACK_MINUTES = int(os.environ.get("LOOKBACK_MINUTES", "360"))
 MIN_WINDOW_SEC = int(os.environ.get("MIN_WINDOW_SEC", "120"))
 MAX_WINDOW_SEC = int(os.environ.get("MAX_WINDOW_SEC", "300"))
 
-# Production Google Chat Space Webhook Endpoint
+# REPLACE: Insert your production Google Chat Space Incoming Webhook URL here
 SOC_ALERTS_WEBHOOK = os.environ.get(
     "SOC_ALERTS_WEBHOOK", 
-    "**Webhook api here**"
+    "https://chat.googleapis.com/v1/spaces/AAAAXXXX/webhooks/YOUR_WEBHOOK_TOKEN_HERE"
 )
 
 STATE_FILE_PATH = os.environ.get("STATE_FILE_PATH", DEFAULT_STATE)
@@ -142,7 +143,7 @@ def send_chat_alert(user_email, deny_time, deny_ip, login_time, login_ip, delta_
                                     "decoratedText": {
                                         "startIcon": {"knownIcon": "CAUTION"},
                                         "text": (
-                                            f"<b>1. Blocked Access (Outside US)</b><br>"
+                                            f"<b>1. Blocked Access (Outside Allowed Geo)</b><br>"
                                             f"Time: {deny_time}<br>"
                                             f"IP: {deny_ip}"
                                         )
@@ -152,7 +153,7 @@ def send_chat_alert(user_email, deny_time, deny_ip, login_time, login_ip, delta_
                                     "decoratedText": {
                                         "startIcon": {"knownIcon": "SHIELD"},
                                         "text": (
-                                            f"<b>2. Successful Login (Inside US/Proxy)</b><br>"
+                                            f"<b>2. Successful Login (Inside Allowed Geo/Proxy)</b><br>"
                                             f"Time: {login_time}<br>"
                                             f"IP: {login_ip}"
                                         )
@@ -333,12 +334,4 @@ def main():
     
     logger.info(f"Query Range: {start_str} to {end_str}")
     denials = fetch_caa_denials(start_str, end_str)
-    deny_count = sum(len(v) for v in denials.values())
-    logger.info(f"Loaded {deny_count} CAA Access Denied events for correlation analysis.")
-    if not denials:
-        logger.info("No target CAA violations discovered. Engine completing tracking iteration cycle.")
-        return
-    correlate_logins(denials, start_str, end_str)
-
-if __name__ == "__main__":
-    main()
+    deny_count =
