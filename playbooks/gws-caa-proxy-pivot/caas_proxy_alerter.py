@@ -54,7 +54,7 @@ MAX_WINDOW_SEC = int(os.environ.get("MAX_WINDOW_SEC", "300"))
 # Production Google Chat Space Webhook Endpoint
 SOC_ALERTS_WEBHOOK = os.environ.get(
     "SOC_ALERTS_WEBHOOK", 
-    "https://chat.googleapis.com/v1/spaces/AAQA6U3XiYY/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=RC7XNPBXabLrqS3l0n_0jGNALFwO8S1og-Zh0AVqXYY"
+    "**Webhook api here**"
 )
 
 STATE_FILE_PATH = os.environ.get("STATE_FILE_PATH", DEFAULT_STATE)
